@@ -8,7 +8,7 @@ public class KnightTour {
 
 	List<Point>[][] possibleMoves;
 
-	static int numberOfSteps = 0;
+	static int ns = 0;
 
 	final static int UNVISITED = Integer.MIN_VALUE;
 
@@ -49,13 +49,14 @@ public class KnightTour {
 
 	}
 
-	private KnightTour findSolution(int a, int b, int sizeOfEdge) {
+	KnightTour findSolution(int a, int b, int sizeOfEdge, int numberOfSteps) {
 		
 		int x = a;
 		int y = b;
 		int orderNumber = 0;
+		ns = numberOfSteps;
 
-		if (findKnightTour(x, y, orderNumber, sizeOfEdge)) {
+		if (findKnightTour(x, y, orderNumber, sizeOfEdge, ns)) {
 			printChessBoard(sizeOfEdge);
 		} 
 		else {
@@ -65,10 +66,8 @@ public class KnightTour {
 		return this;
 	}
 
-	private boolean findKnightTour(int x, int y, int orderNumber, int sizeOfEdge) {
+	private boolean findKnightTour(int x, int y, int orderNumber, int sizeOfEdge, int numberOfSteps) {
 		
-		boolean lotsOfSteps = false;
-
 		if (chessBoard[x][y] != UNVISITED) {
 			return false;
 		}
@@ -80,13 +79,12 @@ public class KnightTour {
 		}
 
 		for (Point d : possibleMoves[x][y]) {
-			numberOfSteps++;
+			ns++;
 
-			if (numberOfSteps >= 2000000) {
-				lotsOfSteps = true;
+			if (ns >= 2000000) {
 				return false;
 			}
-			if (findKnightTour(d.x, d.y, orderNumber + 1, sizeOfEdge)) {
+			if (findKnightTour(d.x, d.y, orderNumber + 1, sizeOfEdge, ns)) {
 				return true;
 			}
 		}
@@ -96,27 +94,4 @@ public class KnightTour {
 		return false;
 	}
 
-	public static void main(String[] args) {
-
-		numberOfSteps = 0;
-		new KnightTour(5).findSolution(0, 4, 5);
-		numberOfSteps = 0;
-		new KnightTour(5).findSolution(4, 3, 5);
-		numberOfSteps = 0;
-		new KnightTour(5).findSolution(1, 1, 5);
-		numberOfSteps = 0;
-		new KnightTour(5).findSolution(2, 2, 5);
-		numberOfSteps = 0;
-		new KnightTour(5).findSolution(1, 4, 5);
-		numberOfSteps = 0;
-		new KnightTour(6).findSolution(0, 5, 6);
-		numberOfSteps = 0;
-		new KnightTour(6).findSolution(1, 4, 6);
-		numberOfSteps = 0;
-		new KnightTour(6).findSolution(4, 4, 6);
-		numberOfSteps = 0;
-		new KnightTour(6).findSolution(2, 3, 6);
-		numberOfSteps = 0;
-		new KnightTour(6).findSolution(4, 2, 6);
-	}
 }
